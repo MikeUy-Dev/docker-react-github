@@ -1,0 +1,20 @@
+services:
+  # Dev Workload
+  frontend:
+    build: 
+      context: .                 # Where to get files/directories to be stored in thee image
+      dockerfile: Dockerfile.dev # Specify the dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - /app/node_modules #Explicitly declares here that /app/node_modules doesnt need mapping
+      - .:/app            #. = docker working dir, or where docker-compose.yml is, going to be mapped to /app
+  # Test Workload
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - .:/app
+    command: ["npm", "run", "test"]
